@@ -123,7 +123,7 @@ misma nos da la matriz de conexión de orden 2, y así sucesivamente.
 	
 \end{proc}
 
-\pred{m3EsM2PorM1}{m3,m2,m1:\TLista{\TLista{\ent}}}{esSimetrica(m3) \land esSimetrica(m2) \land esSimetrica(m1) \land |m3|=|m2| \land |m2| = |m1|\yLuego \\{\paraTodo[unalinea]{a,b}{\ent}{0\leq a,b < |listaMatrices[0]| \implicaLuego   (m3[a][b] = \sum\limits_{k=0}^{|m3|-1} m2[a][k] * m1[k][b] )}}}}
+\pred{m3EsM2PorM1}{m3,m2,m1:\TLista{\TLista{\ent}}}{esSimetrica(m3) \land esSimetrica(m2) \land esSimetrica(m1) \land |m3|=|m2| \land |m2| = |m1|\yLuego \\{\paraTodo[unalinea]{a,b}{\ent}{0\leq a,b < |listaMatrices[0]| \implicaLuego   (m3[a][b] = \sum\limits_{k=0}^{|m3|-1} m2[a][k] * m1[k][b] )}}}
 
 \subsection {caminoMínimo}
 Dada una matriz de distancias, una ciudad de origen y una ciudad de destino, este procedimiento
