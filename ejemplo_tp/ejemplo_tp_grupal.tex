@@ -169,26 +169,27 @@ Lo probaremos por monotonía. Primero demostraremos la correctitud del ciclo del
 {$
 Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \implicaLuego {(|ciudades|[i].habitantes \geq 0) } \land 
     \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}\\
-Qc = \{{res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[j].habitantes}\}\\
+Qc = \{{res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[i].habitantes}\}\\
 B = \{{i< |ciudades|}\}\\
-I = \{{ 0 \leq i \leq |ciudades| \yLuego res = \sum\limits_{i=0}^{i-1}ciudades[j].habitantes}\}\\
+I = \{{ 0 \leq i \leq |ciudades| \yLuego res = \sum\limits_{k=0}^{i-1}ciudades[k].habitantes}\}\\
 Fv = {|ciudades| - i}$
 }
 
 \vspace{0.5cm}
 
 A) Pc \implica I \vspace{0.2cm}\\
+Como el invariante es una conjunción, puedo separarlo y evaluar cada una de sus partes asumiendo como verdadero el antecedente:
 
 \[
 0 \leq i \leq |ciudades| \equiv 0 \leq 0 \leq |ciudades| 
 \vspace{0.2cm}
 \]
 \[
-res =\sum\limits_{i=0}^{i-1}ciudades[j].habitantes \equiv 0 \equiv
+res =\sum\limits_{k=0}^{i-1}ciudades[k].habitantes \equiv 0 \equiv
  \vspace{0.2cm}\\
 \]
 \[
-res = \{\sum\limits_{i=0}^{0-1}ciudades[j].habitantes\} = 0 
+res = \{\sum\limits_{k=0}^{0-1}ciudades[k].habitantes\} = 0 
 \vspace{0.5cm}\\
 \]
 \[
