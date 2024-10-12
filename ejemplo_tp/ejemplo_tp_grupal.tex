@@ -167,7 +167,7 @@ endwhile
  \\
 Lo probaremos por monotonía. Primero demostraremos la correctitud del ciclo del programa, es fundamental verificar tanto el Teorema del Invariante, que asegura que el invariante del ciclo se mantiene durante su ejecución, como el Teorema de Terminación, que garantiza que el ciclo finalizará. Estos teoremas son esenciales para determinar si la tripla de Hoare \{P\} S \{Q\} es correcta, donde \{P\} es la precondición, S el cuerpo del ciclo, y \{Q\} la postcondición. Solo si ambas propiedades se cumplen, podemos afirmar que el ciclo es correcto.\\ \\
 {$
-Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \implicaLuego {(|ciudades|[i].habitantes \geq 0) } \land 
+Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion| \implicaLuego (|ciudades|[i].habitantes \geq 0) } \land 
     \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}\\
 Qc = \{{res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[i].habitantes}\}\\
 B = \{{i< |ciudades|}\}\\
@@ -185,7 +185,7 @@ Como el invariante es una conjunción, puedo separarlo y evaluar cada una de sus
 \vspace{0.2cm}
 \]
 \[
-res =\sum\limits_{k=0}^{i-1}ciudades[k].habitantes \equiv 0 \equiv
+res =\sum\limits_{k=0}^{i-1}ciudades[k].habitantes 0 \equiv
  \vspace{0.2cm}\\
 \]
 \[
@@ -264,8 +264,7 @@ Es verdadero ya que la precondición no implica ninguna condición adicional sob
 2)$Pc \implicaLuego wp(while..., Qc)$ \\ \hspace{0.5cm}
 Fue demostrado anteriormente con los teoremas del invariante y de terminación \\ \\
 3)$ Qc \implicaLuego Q$\\ \hspace{0.5cm}
-Puesto que no hay código luego del ciclo, Qc \implica Q
-\[\equiv (i=|ciudades| \land res ={\sum\limits_{j=0}^{i-1}ciudades[j].habitantes})\implica res = {\sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes}\\\]
+Puesto que no hay codigo luego del ciclo,y la Qc se obtiene de "patear hacia arriba" la Q, puedo afirmar Qc \implica Q, ya que la postcondición del ciclo debe cumplir la postcondición del programa.
 
 \[Con \ esto\ queda\ demostrada\ la\ correctitud\ del\ programa\]
 \vspace{15cm}\\
@@ -274,17 +273,18 @@ Puesto que no hay código luego del ciclo, Qc \implica Q
 En el punto anterior, demostramos que, dada la implementación, es posible cumplir con la especificación propuesta. Sin embargo, esta no garantiza explícitamente que el valor de res sea mayor a 50,000. Entonces, ¿cómo podemos demostrarlo? Podemos afirmarlo gracias a la precondición, que establece que al menos una de las ciudades tiene más de 50,000 habitantes, y que además, el resto de las ciudades tienen habitantes con un valor mayor o igual a 0.\\ \\
 Asimismo, dado que el tipo de dato de ciudades es IN, las cantidades de habitantes no se modificarán durante la ejecución del programa, y este solo se limitará a sumar dichos valores a res, tal como lo establece la postcondición.\\ \\
 Por lo tanto, proponemos modificar la postcondición Q para asegurar que el valor de res sea mayor a 50,000. Esta modificación en Q conlleva, en consecuencia, un ajuste en nuestro invariante y en la Qc, que ahora deben reflejar la existencia de al menos una ciudad con más de 50,000 habitantes ($ciudades[j].habitantes > 50000$). De esta manera, podemos garantizar que la implementación cumple con la nueva especificación requerida y que, al finalizar el ciclo, el valor de res será mayor a 50,000. \\ \\
-Dado que en el punto anterior se probó la monotonía del código y la modificación en la postcondición fortalece la misma, la correctitud del programa no se ve afectada. Según el Principio de Sustitución de Liskov y el Design by Contracts, cualquier cambio que fortalezca la postcondición y mantenga o debilite la precondición no impacta en la corrección del código. Por lo tanto, esta modificación es válida.
 
 
-\[Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \] \[ \implicaLuego {(|ciudades|[i].habitantes \geq 0) } \land
+
+\[Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion| \] \[ \implicaLuego (|ciudades|[i].habitantes \geq 0) } \land
    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}   \] \\
 $B = \{{i< |ciudades|}\} $ \\
 $Fv = {|ciudades| - i}$ \\
-\[I = \{{ 0 \leq i \leq |ciudades| \yLuego res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes \land \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego |ciudades|[j].habitantes > 50,000}}\}\]\\
-Qc = $\{{res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[j].habitantes \land res>50000}\}$\\ \\ \\
+\[I = \{{ 0 \leq i \leq |ciudades| \yLuego res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes \land \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego ciudades[j].habitantes > 50,000}}\}\]\\
+Qc = $\{{res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[i].habitantes \land res>50000}\}$\\ \\ \\
 
 A) Pc \implica I \\
+Como el invariante es una conjunción, puedo separarlo y evaluar cada una de sus partes asumiendo como verdadero el antecedente: \\
 \[0\leq i \leq |ciudades| \equiv 0\leq 0 \leq |ciudades|\]
 \[res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes \equiv 0 \equiv res = \sum\limits_{j=0}^{0-1}ciudades[j].habitantes = 0 \]
 \[Luego,\]
@@ -301,22 +301,36 @@ Este nuevo componente existencial dentro del invariante garantiza que, dentro de
 
 C) $I \land \neg B \implica Qc$\\
 	\[I \land \neg B \equiv 0\leq i \leq |ciudades| \ \land \ res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes \  \land \  \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \]
-	\[ \land \ i \geq |ciudades| \implica i=|ciudades| \equiv \]
-	\[res= \sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes \ \land \ \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \equiv \]
-	\[res = ciudades[0].habitantes+...+ciudades[j-1].habitantes+ciudades[j].habitantes+ciudades[j+1].habitantes+...\]
-	\[+ciudades[|ciudades|-1] \ \land  \ \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego |ciudades|[i].habitantes > 50,000}  \implica \]
+	\[ \land \ i \geq |ciudades| \implica res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[i].habitantes \land res>50000  \]
+Luego, vale \[i \leq |ciudades| \land i \geq |ciudades| \equiv i=|ciudades|\]	
+Reemplazo en Qc y obtengo lo que buscabamos:
+	\[res= \sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes  \]
+Por I sabemos que:
+\[ \ \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego ciudades[j].habitantes > 50,000}  \]
+Ahora tomo el valor de res y rompo la sumatoria para evaluar su comportamiento y poder afirmar que su valor es mayor a 50000:
+	\[res = ciudades[0].habitantes+...+ciudades[j].habitantes+...\]
+	\[+ciudades[|ciudades|-1]  \]
+Y como 
+ \[ciudades[0].habitantes \land ciudades[|ciudades|-1] .habitantes \geq 0\] \[(una \ ciudad  \   no\ puede \ tener \ habitantes\  negativos, \ eso \ nos\ pide\ la\ Pc)\]
+Puedo implicar:
 	\[res >50000\]
+
 	\[Y \ como \ res= \sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes \ \land \ res>50000, queda \ demostrado \ que \ I \land \neg B \implica Qc   \] \\
 
 D)$\{I \land B \land Fv = V_0\} S \{Fv < V_0\} \Iff \{I \land B \land Fv = V_0\} \implica Wp (S, Fv < V_0 )\}$\\ La modificación del invariante no cambia la demostración con respecto al punto anterior, puesto a que el componente existencial no guarda relación con la terminación del ciclo. \\
 
 E) $I \land Fv \leq 0 \implica \neg B$\\ La modificación del invariante no cambia la demostración con respecto al punto anterior, puesto a que el componente existencial no guarda relación con la negación de la guarda.
+\\
+\\
+Para demostrar que la implementación es correcta con respecto a la especificación, debo probar por monotonía que:\\ \\
+1)$ P\implicaLuego Pc$\\ \hspace{0.5cm}
+Obs: No se vé afectado por las nuevas condiciones agregadas
+\\ \\
+2)$Pc \implicaLuego wp(while..., Qc)$ \\ \hspace{0.5cm}
+Fue demostrado anteriormente con los teoremas del invariante y de terminación \\ \\
+3) $Qc \implicaLuego Q$ \\
+Puesto que no hay codigo luego del ciclo,y la Qc se obtiene de "patear hacia arriba" la Q, puedo afirmar Qc \implica Q, ya que la postcondición del ciclo debe cumplir la postcondición del programa.
 
-Obs: El punto 1 de la monotonía no se vé afectado por las nuevas condiciones agregadas
-
-3) \[Qc \implicaLuego Q\]
-Puesto que no hay codigo luego del ciclo, Qc \implica Q 
-\[\equiv (i=|ciudades| \land res ={\sum\limits_{j=0}^{i-1}ciudades[j].habitantes}) \land res>50000 \implica res = {\sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes} \land res>50000\\\]
 
 \[Con\ esto\ queda\ demostrada\ la\ correctitud\ del\ programa\ y\ que\ res\ va\ a\ ser\ mayor\ a\ 50000.\]
 
