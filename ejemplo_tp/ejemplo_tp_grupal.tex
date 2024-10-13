@@ -44,7 +44,7 @@ A partir de una lista de ciudades, devuelve aquellas que tienen más de 50.000 h
 	\requiere{\paraTodo[unalinea]{i}{\ent}{0\leq i < |ciudades| \implicaLuego tieneHabitantes(ciudades[i])}}
     \requiere{noTieneRepetidos(ciudades)}
 	\asegura{\paraTodo [unalinea]{a}{\ent}{0 \leq a<|res| \implicaLuego (res[a]  \in  ciudades)}}
-	\asegura{\paraTodo [unalinea]{j}{\ent}{0 \leq j<|ciudades| \implicaLuego (tieneMasDe50k(ciudades[j])  \land ciudades[j]  \in  res) \land \\(\neg tieneMasDe50k(ciudades[j])  \land ciudades[j]  \notin  res)}}
+	\asegura{\paraTodo [unalinea]{j}{\ent}{0 \leq j<|ciudades| \implicaLuego (tieneMasDe50k(ciudades[j])  \land ciudades[j]  \in  res) \lor \\(\neg tieneMasDe50k(ciudades[j])  \land ciudades[j]  \notin  res)}}
 	\asegura{noTieneRepetidos(res)}
 	
 	\vspace{0.2cm}
