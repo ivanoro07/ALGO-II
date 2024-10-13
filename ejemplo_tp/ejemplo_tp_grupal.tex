@@ -192,7 +192,7 @@ Como el invariante es una conjunción, puedo separarlo y evaluar cada una de sus
 \vspace{0.2cm}
 \]
 \[
-res =\sum\limits_{k=0}^{i-1}ciudades[k].habitantes 0 \equiv
+res =\sum\limits_{k=0}^{i-1}ciudades[k].habitantes \equiv
  \vspace{0.2cm}\\
 \]
 \[
@@ -230,8 +230,16 @@ Dado que queremos demostrar que la tripla de Hoare es correcta, esto pasa si y s
 \[0 \leq i < |ciudades|\\ \]
 
 \hspace{1cm} Finalmente:
-\[wp(S,I)=(0 \leq i \leq |ciudades| \yLuego res = {\sum\limits_{j=0}^{i-1}ciudades[j].habitantes})\\\]
-\vspace{0.5cm}\\	
+\[wp(S,I)=(0 \leq i < |ciudades| \yLuego res = {\sum\limits_{j=0}^{i-1}ciudades[j].habitantes})\\\]
+	
+\hspace{1cm} En Conclusión:\\
+\[I \land B \implica wp(ciclo,I)\]
+\[I \land B \implica 0 \leq i \leq |ciudades| \land i<|ciudades| \equiv 0 \leq i < |ciudades|\]
+Implicado en la wp\\
+\[res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes\]
+Está identico en I, tanto como en la Wp
+\vspace{0.5cm}\\
+
 
 C) $I \land \neg B \implica Qc$\\
 \[I \land \neg B \equiv 0 \leq i \leq |ciudades| \yLuego res ={\sum\limits_{j=0}^{i-1}ciudades[j].habitantes} \land i \geq |ciudades|\]
@@ -253,9 +261,9 @@ D)$\{I \land B \land Fv = V_0\} S \{Fv < V_0\}$ Para demostrar esto, debemos pro
 \hspace{1cm}Finalmente:
 \[\equiv |ciudades| -i-1 < V_0\]
 
-\[wp(res:= res+ciudades[i].habitantes, 1ciudades1-i-1<V_0) \]
+\[wp(res:= res+ciudades[i].habitantes, |ciudades|-i-1<V_0) \]
 \[\equiv def(ciudades[i].habitantes \yLuego |ciudades|-i-1<V_0 \]
-\[\equiv 0\leq i<|ciudades| \yLuego 1ciudades1-i-1<V_0 \]
+\[\equiv 0\leq i<|ciudades| \yLuego |ciudades|-i-1<V_0 \]
 \hspace{1cm}Entonces:\\  \[ |ciudades|-i-1<V_0\]
 \\
 \[(I \land B\land V_0 = Fv) \implica wp(ciclo,Fv<V_0)\]
@@ -330,7 +338,7 @@ Este nuevo componente existencial dentro del invariante garantiza que, dentro de
 
 
 C) $I \land \neg B \implica Qc$\\
-	\[I \land \neg B \equiv 0\leq i \leq |ciudades| \ \land \ res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes \  \land \  \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \]
+	\[I \land \neg B \equiv 0\leq i \leq |ciudades| \ \land \ res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes \  \land \  \existe[unalinea]j{\ent}{0\leq j <|ciudades| \yLuego ciudades[i].habitantes > 50,000} \]
 	\[ \land \ i \geq |ciudades| \implica res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[i].habitantes \land res>50000  \]
 Luego, vale \[i \leq |ciudades| \land i \geq |ciudades| \equiv i=|ciudades|\]	
 Reemplazo en Qc y obtengo lo que buscabamos:
