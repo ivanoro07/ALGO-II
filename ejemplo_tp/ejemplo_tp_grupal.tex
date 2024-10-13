@@ -153,8 +153,8 @@ camino, se debe devolver una lista vacía.
 La función poblaciónTotal recibe una lista de ciudades donde al menos una de ellas es grande (es decir, supera los
 50.000 habitantes) y devuelve la cantidad total de habitantes. Dada la siguiente especificación:
 \begin{proc}{poblacionTotal}{\In ciudades: \TLista{Ciudad}}{\ent}
-	\requiere{\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\
-    \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \implicaLuego {(|ciudades|[i].habitantes \geq 0) } \land \\ 
+	\requiere{\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \\
+    \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \implicaLuego {(ciudades[i].habitantes \geq 0) } \land \\ 
     \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}}}
     \asegura{res = \sum\limits_{i=0}^{|ciudades|-1} ciudades[i].habitantes}
     
@@ -174,7 +174,7 @@ endwhile
  \\
 Lo probaremos por monotonía. Primero demostraremos la correctitud del ciclo del programa, es fundamental verificar tanto el Teorema del Invariante, que asegura que el invariante del ciclo se mantiene durante su ejecución, como el Teorema de Terminación, que garantiza que el ciclo finalizará. Estos teoremas son esenciales para determinar si la tripla de Hoare \{P\} S \{Q\} es correcta, donde \{P\} es la precondición, S el cuerpo del ciclo, y \{Q\} la postcondición. Solo si ambas propiedades se cumplen, podemos afirmar que el ciclo es correcto.\\ \\
 {$
-Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion| \implicaLuego (|ciudades|[i].habitantes \geq 0) } \land 
+Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion| \implicaLuego |ciudades[i].habitantes \geq 0) } \land 
     \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}\\
 Qc = \{{res = \sum\limits_{i=0}^{|ciudades|-1}ciudades[i].habitantes}\}\\
 B = \{{i< |ciudades|}\}\\
@@ -259,22 +259,32 @@ El ciclo termina, y es correcto \\
 \\
 Para demostrar que la implementación es correcta con respecto a la especificación, debo probar por monotonía que:\\ \\
 1)$ P\implicaLuego Pc$\\ \hspace{0.5cm}
-\[P \implica wp(res=0, wp(i=0, Pc))\]
-\[P \implica wp(res=0, res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\\]
-\[  \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \implicaLuego {(|ciudades|[i].habitantes \geq 0) } \land \]
-   \[ \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}}))\]
-\[P \implica res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \]
-\[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|} \implicaLuego {(|ciudades|[i].habitantes \geq 0) } \land \]
- \[   \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}})\]
+\[P \implica wp(res:=0, wp(i:=0, Pc))\]
+-wp(i:=0, Pc)
+\[def(0) \yLuego  res = 0 \land 0 = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \]  \[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|  \implicaLuego  (ciudades[i].habitantes \geq 0) } \land \] \[
+    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \equiv \]
+\[true \yLuego  res = 0 \land true \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \]  \[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|  \implicaLuego  (ciudades[i].habitantes \geq 0) } \land \] \[
+    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \]
+Simplifico y obtengo:
+\[  res = 0  \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \]  \[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|  \implicaLuego  (ciudades[i].habitantes \geq 0) } \land \] \[
+    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \]
+-wp(res:=0, wp(i:0, Pc))
+\[def(0) \yLuego  0 = 0 \land 0 = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \]  \[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|  \implicaLuego  (ciudades[i].habitantes \geq 0) } \land \] \[
+    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \equiv \]
+\[true \yLuego  true  \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \]  \[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|  \implicaLuego  (ciudades[i].habitantes \geq 0) } \land \] \[
+    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \]
+Simplifico y finalmente obtengo:
+\[(\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \]  \[ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion|  \implicaLuego  (ciudades[i].habitantes \geq 0) } \land \] \[
+    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \]
+Que como se puede notar a simple vista, es exactamente igual a P, por lo que $P \implica Pc$  \\
 
-Es verdadero ya que la precondición no implica ninguna condición adicional sobre res ni sobre i\\ \\
 2)$Pc \implicaLuego wp(while..., Qc)$ \\ \hspace{0.5cm}
 Fue demostrado anteriormente con los teoremas del invariante y de terminación \\ \\
 3)$ Qc \implicaLuego Q$\\ \hspace{0.5cm}
 Puesto que no hay codigo luego del ciclo,y la Qc se obtiene de "patear hacia arriba" la Q, puedo afirmar Qc \implica Q, ya que la postcondición del ciclo debe cumplir la postcondición del programa.
 
 \[Con \ esto\ queda\ demostrada\ la\ correctitud\ del\ programa\]
-\vspace{15cm}\\
+\vspace{2cm}\\
 2. Demostrar que el valor devuelto es mayor a 50.000.
 \vspace{0.3cm}\\
 En el punto anterior, demostramos que, dada la implementación, es posible cumplir con la especificación propuesta. Sin embargo, esta no garantiza explícitamente que el valor de res sea mayor a 50,000. Entonces, ¿cómo podemos demostrarlo? Podemos afirmarlo gracias a la precondición, que establece que al menos una de las ciudades tiene más de 50,000 habitantes, y que además, el resto de las ciudades tienen habitantes con un valor mayor o igual a 0.\\ \\
@@ -283,7 +293,7 @@ Por lo tanto, proponemos modificar la postcondición Q para asegurar que el valo
 
 
 
-\[Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego |ciudades|[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion| \] \[ \implicaLuego (|ciudades|[i].habitantes \geq 0) } \land
+\[Pc = \{ res = 0 \land i = 0 \land (\existe[unalinea]i\ent {0\leq i<|ciudades| \yLuego ciudades[i].habitantes > 50,000} \land \\ \paraTodo[unalinea]i{\ent}{0 \leq i<|conexion| \] \[ \implicaLuego (ciudades[i].habitantes \geq 0) } \land
    \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}   \] \\
 $B = \{{i< |ciudades|}\} $ \\
 $Fv = {|ciudades| - i}$ \\
@@ -331,7 +341,7 @@ E) $I \land Fv \leq 0 \implica \neg B$\\ La modificación del invariante no camb
 \\
 Para demostrar que la implementación es correcta con respecto a la especificación, debo probar por monotonía que:\\ \\
 1)$ P\implicaLuego Pc$\\ \hspace{0.5cm}
-Obs: No se vé afectado por las nuevas condiciones agregadas
+Obs: No se vé afectado por las nuevas condiciones agregadas, por lo que la demostración previa sigue valiendo.
 \\ \\
 2)$Pc \implicaLuego wp(while..., Qc)$ \\ \hspace{0.5cm}
 Fue demostrado anteriormente con los teoremas del invariante y de terminación \\ \\
