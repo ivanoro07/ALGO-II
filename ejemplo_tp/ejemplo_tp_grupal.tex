@@ -38,7 +38,7 @@
 \pred{diagonalEnCero}{matriz: \TLista{\TLista{\ent}}}{\paraTodo[unalinea]{i}{\ent}{0 \leq i < |matriz| \implicaLuego matriz[i][i]=0}}
 
 \subsection {grandesCiudades}
-A partir de una lista de ciudades, devuelve aquellas que tienen más de 50.000 habitantes.
+A partir de una lista de ciudades, devuelve aquellas que tienen más de 50.000 habitantes.  
 \vspace{0.2cm}
 \begin{proc}{grandesCiudades}{\In ciudades : \TLista{Ciudad} }{\TLista{Ciudad}}
 	\requiere{\paraTodo[unalinea]{i}{\ent}{0\leq i < |ciudades| \implicaLuego tieneHabitantes(ciudades[i])}}
@@ -276,7 +276,7 @@ D)$\{I \land B \land Fv = V_0\} S \{Fv < V_0\}$ Para demostrar esto, debemos pro
 \hspace{1cm}Entonces:
 \[ (0\leq i \leq |ciudades| \land |ciudades|\leq i) \Iff (i=|ciudades|) \implica \neg(i<|ciudades|) \equiv \neg B\] \\
 
-\[El \ ciclo\ termina ,\ y\ es\ correcto\ \]\\
+\[El \ ciclo\ termina ,\ y\ es\ correcto.\ \]\\
 \\
 Para demostrar que la implementación es correcta con respecto a la especificación, debo probar por monotonía que:\\ \\
 1)$ P\implicaLuego Pc$\\ \hspace{0.5cm}
