@@ -210,52 +210,65 @@ Dado que queremos demostrar que la tripla de Hoare es correcta, esto pasa si y s
 \[wp(S,I)\\\]
 \[wp(res := res + ciudades[i].habitantes, i := i+1, I)\\\]
 \[wp(res := res + ciudades[i].habitantes, wp(i := i+1, I))\\ \\\]
-\[wp (i := i+1, I) \equiv def(i+1) \yLuego 0 \leq i+1 \leq |ciudades| \yLuego res = \sum\limits_{i=0}^{i-1}ciudades[j].habitantes\\\]
-\[wp \equiv 0 \leq i \leq |ciudades| \land True \yLuego (0 \leq i+1 \leq |ciudades| \yLuego res = \sum\limits_{j=0}^{(i+1)-1}ciudades[j].habitantes)\\ \]
+\[wp (i := i+1, I) \equiv def(i+1) \yLuego 0 \leq i+1 \leq |ciudades| \yLuego res = \sum\limits_{i=0}^{(i+1)-1}ciudades[j].habitantes\\\]
+\[\equiv def(i) \land def(1) \yLuego 0\leq i+1 \leq |ciudades| \yLuego res =\sum\limits_{i=0}^{(i+1)-1}ciudades[j].habitantes  \]
 
-$Obs:$\\ 
-\[0 \leq i \leq |ciudades| \yLuego 0 \leq i+1 \leq |ciudades|\\  \]
-\[0 \leq i \leq |ciudades| \yLuego -1 \leq i \leq |ciudades|-1\\\]
-\[0 \leq i < |ciudades|\\ \]
-\[
-wp \equiv 0 \leq i < |ciudades| \yLuego res = \sum\limits_{j=0}^{i}ciudades[j].habitantes\\\]
+\[\equiv True\land True \yLuego (0 \leq i+1 \leq |ciudades| \yLuego res = \sum\limits_{j=0}^{(i+1)-1}ciudades[j].habitantes)\\ \]
+\hspace{1cm}Finalmente
+\[ (0 \leq i+1 \leq |ciudades| \yLuego res = \sum\limits_{j=0}^{(i+1)-1}ciudades[j].habitantes)\\ \]
+\\
+
 \[wp(res := res + ciudades[i].habitantes, wp(i := i+1, I)) \equiv \\\]
-\[wp(res := res + ciudades[i].habitantes, 0 \leq i \leq |ciudades| \yLuego res = {\sum\limits_{j=0}^{i}ciudades[j].habitantes})\]
-\[wp(def(res+ciudades[i].habitantes) \yLuego 0 \leq i \leq |ciudades| \yLuego res = {\sum\limits_{j=0}^{i}ciudades[j].habitantes})\]
-\[wp(def(res) \land def(ciudades[i].habitantes) \yLuego 0 \leq i \leq |ciudades| \yLuego res+ciudades[i].habitantes = {\sum\limits_{j=0}^{i}ciudades[j].habitantes})\]
-\[wp(True \land 0 \leq i \leq |ciudades| \yLuego 0 \leq i \leq |ciudades| \yLuego res = ({\sum\limits_{j=0}^{i}ciudades[j].habitantes})-ciudades[i].habitantes\]
+\[wp(res := res + ciudades[i].habitantes, 0 \leq i +1\leq |ciudades| \yLuego res = {\sum\limits_{j=0}^{i}ciudades[j].habitantes}) \equiv \]
+\[def(res+ciudades[i].habitantes) \yLuego 0 \leq i+1 \leq |ciudades| \yLuego res +ciudades[i].habitantes = {\sum\limits_{j=0}^{i}ciudades[j].habitantes}\]
+\[def(res) \land def(ciudades[i].habitantes) \yLuego 0 \leq i+1 \leq |ciudades| \yLuego res+ciudades[i].habitantes = {\sum\limits_{j=0}^{i}ciudades[j].habitantes}\]
+\[True \land 0 \leq i \leq |ciudades| \yLuego 0 \leq i+1 \leq |ciudades| \yLuego res = ({\sum\limits_{j=0}^{i}ciudades[j].habitantes})-ciudades[i].habitantes\]
+
+\hspace{1cm}$Obs:$\\ 
+\[0 \leq i \leq |ciudades| \land 0 \leq i+1 \leq |ciudades|\\  \]
+\[0 \leq i \leq |ciudades| \land -1 \leq i \leq |ciudades|-1\\\]
+\[0 \leq i < |ciudades|\\ \]
+
+\hspace{1cm} Finalmente:
 \[wp(S,I)=(0 \leq i \leq |ciudades| \yLuego res = {\sum\limits_{j=0}^{i-1}ciudades[j].habitantes})\\\]
 \vspace{0.5cm}\\	
 
 C) $I \land \neg B \implica Qc$\\
-\[I \land \neg B \equiv 0 \leq i \leq |ciudades| \yLuego res ={\sum\limits_{j=0}^{i-1}ciudades[j].habitantes} \land i \geq |ciudades|\implica\]\\
-\[res = {\sum\limits_{j=0}^{i-1}ciudades[j].habitantes} \land i = |ciudades| \equiv res= {\sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes}\\ \\\]
+\[I \land \neg B \equiv 0 \leq i \leq |ciudades| \yLuego res ={\sum\limits_{j=0}^{i-1}ciudades[j].habitantes} \land i \geq |ciudades|\]
+\hspace{1cm}Entonces, sabemos que $i=|ciudades|$ \ y usando esto en el otro termino de I...
+\[res = {\sum\limits_{j=0}^{i-1}ciudades[j].habitantes} = {\sum\limits_{j=0}^{|ciudades|-1}ciudades[j].habitantes}\\ \\\]
 \[Por \ lo \ tanto, \ I\land \neg B \implica Qc\\ \vspace{0.5cm}\\\]
 
 Función variante propuesta: Fv = $|Ciudades|-i$ \\
 
-D)$\{I \land B \land Fv = V_0\} S \{Fv < V_0\} \Iff \{I \land B \land Fv = V_0\} \implica Wp (S, Fv < V_0 )\}$\\
+D)$\{I \land B \land Fv = V_0\} S \{Fv < V_0\}$ Para demostrar esto, debemos probar que: \\
+\[\{I \land B \land Fv = V_0\} \implica Wp (S, Fv < V_0 )\}\]
+\\
 \[Wp(S,Fv < V_0 ) \equiv Wp(res:=res+ciudades[i].habitantes, i:=i+1,|ciudades|-i<V_0)\\ \]
-\[Wp(res:= res+ciudades[i].habitantes, Wp(i:=i+1,|ciudades|-1< V_0))\\\]
-\[\hspace{1cm}Wp(i:=i+1,|ciudades-1<V_0))  \]
+\[Wp(res:= res+ciudades[i].habitantes, Wp(i:=i+1,|ciudades|-i< V_0))\\\] \\
+\[\hspace{1cm}Wp(i:=i+1,|ciudades|-i<V_0))  \]
 \[\hspace{1cm}\equiv def (i+1) \yLuego |ciudades|-(i+1) < V_0 )\]
 \[\hspace{1cm}\equiv def(i) \land def(1) \yLuego |ciudades|-i-1 < V_0 \]
-\[\hspace{1cm}\equiv 0 \leq i+1< |ciudades| \land True \yLuego |ciudades|-i-1 < V_0  \]
-\[\hspace{1cm}\equiv -1 \leq i < |ciudades| -1 \yLuego |ciudades|-i-1 < V_0  \\\]
-\[\equiv def(res+ciudades[i]) \yLuego (-1 \leq i < |ciudades -1 \yLuego |ciudades|-i-1 < V_0)\]
-\[\equiv True \land 0 \leq i < |ciudades| \yLuego (-1 \leq i < |ciudades -1 \yLuego |ciudades|-i-1 < V_0)\]
-\\
-
-$Obs: 0 \leq i \leq |ciudades| \yLuego -1 \leq i \leq |ciudades|-1 = 0 \leq i < |ciudades|$\\
-\[\equiv 0 \leq i < |ciudades| \yLuego |ciudades|-i-1 < V_0\]
+\[\hspace{1cm}\equiv true \land True \yLuego |ciudades|-i-1 < V_0  \]
+\hspace{1cm}Finalmente:
 \[\equiv |ciudades| -i-1 < V_0\]
-\[\{I \land B \land V_0 = Fv\} \equiv \{0 \leq |ciudades| -1 \land |ciudades|-1 = V_0 \land {res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes}\}\]
-\[(I \land B \land V_0 = Fv) \implica Wp(S,Fv < V_0) \Iff |ciudades| -i-1 < |ciudades|-1 \Iff -1 < 0\] 
+
+\[wp(res:= res+ciudades[i].habitantes, 1ciudades1-i-1<V_0) \]
+\[\equiv def(ciudades[i].habitantes \yLuego |ciudades|-i-1<V_0 \]
+\[\equiv 0\leq i<|ciudades| \yLuego 1ciudades1-i-1<V_0 \]
+\hspace{1cm}Entonces:\\  \[ |ciudades|-i-1<V_0\]
+\\
+\[(I \land B\land V_0 = Fv) \implica wp(ciclo,Fv<V_0)\]
+\hspace{1cm}Basta con tomar  $V_0 =Fv$  para  la  demostración  \\
+\[|ciudades|-i-1<|ciudades-i \Iff -1<0\]
+
+
 \hspace{0.5cm}E) $I \land Fv \leq 0 \implica \neg B$\\
-\[I \land Fv \leq 0 \equiv (0 \leq i \leq |ciudades| \land |ciudades|-i \leq 0 \land {res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes}) \Iff\\\]
+\[I \land Fv \leq 0 \equiv (0 \leq i \leq |ciudades| \land |ciudades|-i \leq 0 \land {res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes}) \\ \]
+\hspace{1cm}Entonces:
 \[ (0\leq i \leq |ciudades| \land |ciudades|\leq i) \Iff (i=|ciudades|) \implica \neg(i<|ciudades|) \equiv \neg B\] \\
 
-El ciclo termina, y es correcto \\
+\[El \ ciclo\ termina ,\ y\ es\ correcto\ \]\\
 \\
 Para demostrar que la implementación es correcta con respecto a la especificación, debo probar por monotonía que:\\ \\
 1)$ P\implicaLuego Pc$\\ \hspace{0.5cm}
