@@ -105,7 +105,7 @@ Así como definimos la matriz de distancias, podemos definir la matriz de conexi
 tiene un 1 si hay un único camino a un salto de distancia entre el nodo i y el nodo j, y un 0 en caso contrario. En este
 caso, se trata de una matriz de conexión de orden 1, ya que indica cuáles pares de nodos poseen 1 camino entre ellos a
 1 salto de distancia.
-Dada la matriz de conexi´on de orden 1, este procedimineto debe obtener aquella de orden n que indica cu´antos caminos
+Dada la matriz de conexión de orden 1, este procedimineto debe obtener aquella de orden n que indica cuántos caminos
 de n saltos hay entre los distintos nodos. Notar que la multiplicación de una matriz de conexión de orden 1 consigo
 misma nos da la matriz de conexión de orden 2, y así sucesivamente.
 \vspace{0.3cm}
@@ -235,9 +235,9 @@ Dado que queremos demostrar que la tripla de Hoare es correcta, esto pasa si y s
 \hspace{1cm} En Conclusión:\\
 \[I \land B \implica wp(ciclo,I)\]
 \[I \land B \implica 0 \leq i \leq |ciudades| \land i<|ciudades| \equiv 0 \leq i < |ciudades|\]
-Implicado en la wp\\
+\hspace{1cm}Implicado en la wp\\
 \[res = \sum\limits_{j=0}^{i-1}ciudades[j].habitantes\]
-Está identico en I, tanto como en la Wp
+\hspace{1cm}Es identico en I, tanto como en la Wp
 \vspace{0.5cm}\\
 
 
@@ -299,7 +299,7 @@ Simplifico y finalmente obtengo:
     \paraTodo[unalinea]i{\ent}{\paraTodo[unalinea]j{\ent}{0 \leq i  < j<ciudades[i].nombre \neq ciudades[j].nombre}})\}  \]
 Que como se puede notar a simple vista, es exactamente igual a P, por lo que $P \implica Pc$  \\
 
-2)$Pc \implicaLuego wp(while..., Qc)$ \\ \hspace{0.5cm}
+\hspace{-0.55cm}2)$Pc \implicaLuego wp(while..., Qc)$   \\
 Fue demostrado anteriormente con los teoremas del invariante y de terminación \\ \\
 3)$ Qc \implicaLuego Q$\\ \hspace{0.5cm}
 Puesto que no hay codigo luego del ciclo,y la Qc se obtiene de "patear hacia arriba" la Q, puedo afirmar Qc \implica Q, ya que la postcondición del ciclo debe cumplir la postcondición del programa.
