@@ -29,7 +29,7 @@
 \pred{noTieneRepetidos}{secuencia1:\TLista{Ciudad}}{\paraTodo [unalinea]{i}{\ent}{0 \leq i<|secuencia1| \implicaLuego \neg \existe [unalinea]{j}{\ent}{0 \leq j<|secuencia1| \land i\neq j \yLuego \\ secuencia1[i] = secuencia1[j]}}} 
 
 \pred{tieneCamino}{distancias:\TLista{\TLista{\ent}}, desde:\ent , hasta:\ent  }
-{\existe[unalinea]{lista}{\TLista{\ent}}{(|lista| > 1) \land \paraTodo[unalinea]{i}{\ent}{1\leq i< |lista| \implicaLuego ((lista[0]=desde)\land(lista[|lista|-1]=hasta) \land \\ \paraTodo[unalinea]{a}{\ent}{0\leq a<|lista| \implicaLuego 0 \leq lista[a] < |distancias|)\yLuego (distancias[lista[i]][lista[i-1]]>0) }}}}
+{\existe[unalinea]{lista}{\TLista{\ent}}{(|lista| > 1) \land (|lista|\leq |distancias|)\land\paraTodo[unalinea]{i}{\ent}{1\leq i< |lista| \implicaLuego ((lista[0]=desde)\land(lista[|lista|-1]=hasta) \land \\ \paraTodo[unalinea]{a}{\ent}{0\leq a<|lista| \implicaLuego 0 \leq lista[a] < |distancias|)\yLuego (distancias[lista[i]][lista[i-1]]>0) }}}}
 
 \pred{esSimetrica}{matriz: \TLista{\TLista{\ent}}}{\paraTodo [unalinea]{i}{\ent}{0\leq i < |matriz| \implicaLuego \paraTodo [unalinea]{j}{\ent}{0\leq j<|matriz|\implicaLuego matriz[i][j] = matriz[j][i]}}}
 
